@@ -1,0 +1,128 @@
+<div class="card">
+  <div class="card-header bg-success-subtle text-center">
+    <h5>Employee Registration</h5>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="employeeForm" (ngSubmit)="onFormSubmit()">
+      <div class="row my-1">
+        <div class="col form-group">
+          <label>Department</label>
+          <select class="form-control" name="department" formControlName="department" [class.is-invalid]="frm['department'].invalid && frm['department'].touched ">
+            <option value="">--select--</option>
+            <option value="accounts">Accounts</option>
+            <option value="manager">Manager</option>
+            <option value="administrator">Administrator</option>
+          </select>
+          <span class="alert alert-warning py-0 px-1  " *ngIf="frm['department'].invalid && frm['department'].touched">*Department field is required</span>
+        </div>
+        <div class="col form-group">
+          <label>Employee Name</label>
+          <input type="text" class="form-control" name="empName" formControlName="empName" [class.is-invalid]="frm['empName'].invalid && frm['empName'].touched "/>
+          <span class="alert alert-warning py-0 px-1  " *ngIf="frm['empName'].invalid && frm['empName'].touched">Employee Name is required</span>
+        </div>
+        <div class="col form-group">
+          <label>Mobile</label>
+          <input type="text" class="form-control" name="mobile" formControlName="mobile" [class.is-invalid]="frm['mobile'].invalid && frm['mobile'].touched " />
+          <span class="alert alert-warning py-0 px-1  " *ngIf="frm['mobile'].invalid && frm['mobile'].touched">Mobile number is required</span>
+        </div>
+      </div>
+
+      <div class="row my-1">
+        <div class="col form-group">
+          <label>Gender</label>
+          <select class="form-control" name="gender" formControlName="gender" [class.is-invalid]="frm['gender'].invalid && frm['gender'].touched ">
+            <option value="">--Select--</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+          <span class="alert alert-warning py-0 px-1  " *ngIf="frm['gender'].invalid && frm['gender'].touched">Gender is required</span>
+        </div>
+        <div class="col form-group">
+          <label>Date Of Joining</label>
+          <input type="date" class="form-control" name="joinDate" formControlName="joinDate" [class.is-invalid]="frm['joinDate'].invalid && frm['joinDate'].touched "/>
+          <span class="alert alert-warning py-0 px-1  " *ngIf="frm['joinDate'].invalid && frm['joinDate'].touched">Date Of Joining is required</span>
+        </div>
+        <div class="col form-group">
+          <label>Email</label>
+          <input type="email" class="form-control" name="email" formControlName="email" [class.is-invalid]="frm['email'].invalid && frm['email'].touched " />
+          <span class="alert alert-warning py-0 px-1  " *ngIf="frm['email'].invalid && frm['email'].touched">Email is required</span>
+        </div>
+      </div>
+
+      <div class="row my-1">
+        <div class="col form-group">
+          <label>Salary</label>
+          <input type="text" class="form-control" name="salary" formControlName="salary" [class.is-invalid]="frm['salary'].invalid && frm['salary'].touched "/>
+          <span class="alert alert-warning py-0 px-1  " *ngIf="frm['salary'].invalid && frm['salary'].touched">Salary is required</span>
+        </div>
+        <div class="col form-group">
+          <label>Password</label>
+          <input type="password" class="form-control" name="password" formControlName="password" [class.is-invalid]="frm['password'].invalid && frm['password'].touched "/>
+          <span class="alert alert-warning py-0 px-1  " *ngIf="frm['password'].invalid && frm['password'].touched">Password field is required</span>
+        </div>
+        <div class="col form-group">
+          <label>Confirm Password</label>
+          <input type="password" class="form-control" name="cnfPassword" formControlName="cnfPassword" [class.is-invalid]="frm['cnfPassword'].invalid && frm['cnfPassword'].touched "/>
+          <span class="alert alert-warning py-0 px-1  " *ngIf="frm['cnfPassword'].invalid && frm['cnfPassword'].touched">Confirm Password field is required</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" name="empStatus" formControlName="empStatus"  [class.is-invalid]="frm['empStatus'].invalid && frm['empStatus'].touched " />
+            <label>Active</label>
+            <span class="alert alert-warning py-0 px-1  " *ngIf="frm['empStatus'].invalid && frm['empStatus'].touched">Active check field is required</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group text-end   ">
+          <button type="submit" [class.disabled]="employeeForm.invalid" class="btn btn-primary  mx-1">{{buttonType}}</button>
+          <button type="button" class="btn btn-outline-warning mx-1" (click)="resetBtn()">Reset</button>
+          <button type="button" class="btn btn-danger mx-1" (click)="cancel()">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Employee List -->
+<div class="card">
+  <div class="card-header bg-primary-subtle text-center">
+    <h5>Employee's List</h5>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <table class="table table-light table-responsive">
+        <thead>
+          <tr>
+            <th>Department</th>
+            <th>Employee Name</th>
+            <th>Mobile</th>
+            <th>Gender</th>
+            <th>Joining Date</th>
+            <th>Email</th>
+            <th class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of employeesData">
+            <td>{{data.department}}</td>
+            <td>{{data.empName}}</td>
+            <td>{{data.mobile}}</td>
+            <td>{{data.gender}}</td>
+            <td>{{data.joinDate}}</td>
+            <td>{{data.email}}</td>
+            <td class="text-center">
+              <button class="btn btn-outline-warning mx-1" (click)="onEdit(data.id)">Edit</button>
+              <button class="btn btn-outline-info mx-1">Detail</button>
+              <button class="btn btn-outline-danger mx-1" (click)="onDelete(data.id)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
